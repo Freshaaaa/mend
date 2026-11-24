@@ -349,7 +349,7 @@ function parseUnified(lines: string[], strict: boolean): Edit[] {
       continue;
     }
     if (l.startsWith('@@')) {
-      const m = /^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@(?: |$)/.exec(l);
+      const m = /^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@/.exec(l);
       if (m === null || cur === null) throw new Exit2(`error: parse ${i + 1}`);
       inHeader = false;
       const A = parseInt(m[1]!, 10);
@@ -495,8 +495,9 @@ function unifiedEdit(s: USection, strict: boolean): Edit {
         if (runsToEnd) final = !hunkNoEol(h);
       } else {
         const at = Math.min(Math.max(h.A + d, 0), lines.length);
+        const atEnd = at === lines.length;
         lines = [...lines.slice(0, at), ...h.N, ...lines.slice(at)];
-        if (at === lines.length) final = !hunkNoEol(h);
+        if (atEnd) final = !hunkNoEol(h);
       }
       d += h.N.length - h.O.length;
     }
