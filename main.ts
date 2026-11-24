@@ -640,7 +640,7 @@ function v4aSectionEdit(sec: VSection, strict: boolean): Edit {
       moveTo = l.slice(l.indexOf(': ') + 2).trim();
       continue;
     }
-    if (l.trim() === '*** End of File') {
+    if (l === '*** End of File') {
       if (curChunk === null) throw new Exit2(`error: parse ${r.no}`);
       curChunk.eof = true;
       curChunk = null;
